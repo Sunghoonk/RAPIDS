@@ -1,0 +1,7 @@
+com.samsung.health.device_profile,6190043,6
+manufacturer,providing_step_goal,step_source_group,device_type,backsync_step_goal,capability,device_group,update_time,create_time,name,model,connectivity_type,deviceuuid,pkg_name,fixed_name,datauuid
+Samsung,,,,,,360001,2021-03-11 06:45:33.239,2021-03-11 06:45:33.239,My Device,SM-G973N,,EIy+BrLOSY,com.sec.android.app.shealth,Galaxy S10,5428fe17-06e9-1e50-66d0-352f86e894b4,
+Combined,,,,,,0,2021-05-29 18:02:59.413,2021-05-29 18:02:59.413,Combined,Combined,,VfS0qUERdZ,com.sec.android.app.shealth,Galaxy S10,7af9722c-cd99-07b7-853a-43ce58e819c5,
+Samsung,,,10008,,,360001,2014-12-26 08:06:24.125,2014-12-22 09:51:52.183,SM-G850S,SM-G850S,4,SpQGiVcdHM,com.sec.android.app.shealth,,4a940689-571d-1cce-d92c-ed1d5a47dba1,
+all_target,,,,,,0,2021-05-29 18:02:59.541,2021-05-29 18:02:59.541,all_target,all_target,,Mk66SbFqK1,com.sec.android.app.shealth,Galaxy S10,471ca32b-a665-1e9e-7c27-7ac69485dc05,
+Samsung Electronics,1,25,10051,1,fe2d1cb8-f87e-4f0a-95ab-4f3e9872af3f.capability.json,360003,2021-09-30 01:24:57.846,2021-09-11 07:45:29.261,Galaxy Fit2,,,Ll5vOcD74C,com.sec.android.app.shealth,Galaxy S10,fe2d1cb8-f87e-4f0a-95ab-4f3e9872af3f,

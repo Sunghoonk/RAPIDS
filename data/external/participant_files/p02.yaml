@@ -1,0 +1,6 @@
+PHONE:
+    DEVICE_IDS: [a748ee1a-1d0b-4ae9-9074-279a2b6ba524] # the participant's AWARE device id
+    PLATFORMS: [android] # or ios
+    LABEL: MyTestP01 # any string
+    START_DATE: 2020-01-01 # this can also be empty
+    END_DATE: 2021-01-01 # this can also be empty
