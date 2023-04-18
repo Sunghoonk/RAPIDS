@@ -1,0 +1,1446 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	activity_recognition_episodes
+	1	all
+	2	baselines_for_individual_model
+	1	baselines_for_population_model
+	1	clean_sensor_features_for_all_participants
+	2	clean_sensor_features_for_individual_participants
+	1	conversation_python_features
+	2	demographic_features
+	1	fitbit_heartrate_summary_python_features
+	3	fitbit_readable_datetime
+	1	fitbit_sleep_summary_python_features
+	1	fitbit_steps_summary_python_features
+	1	heatmap_feature_correlation_matrix
+	1	heatmap_phone_data_yield_per_participant_per_time_segment
+	1	heatmap_sensor_row_count_per_time_segment
+	1	histogram_phone_data_yield
+	19	join_features_from_providers
+	2	merge_features_and_targets_for_individual_model
+	1	merge_features_and_targets_for_population_model
+	1	merge_heatmap_sensor_row_count_per_time_segment
+	1	merge_heatmap_sensors_per_minute_per_time_segment
+	1	merge_sensor_features_for_all_participants
+	2	merge_sensor_features_for_individual_participants
+	15	modelling_for_all_participants
+	30	modelling_for_individual_participants
+	1	parse_targets
+	2	phone_activity_recognition_python_features
+	1	phone_application_categories
+	1	phone_applications_foreground_python_features
+	1	phone_bluetooth_r_features
+	1	phone_calls_r_features
+	1	phone_light_python_features
+	1	phone_messages_r_features
+	9	phone_readable_datetime
+	1	phone_screen_python_features
+	1	phone_wifi_visible_r_features
+	3	resample_episodes
+	4	resample_episodes_with_datetime
+	1	screen_episodes
+	1	target_readable_datetime
+	122
+
+[Tue Apr 11 09:04:54 2023]
+rule merge_heatmap_sensors_per_minute_per_time_segment:
+    input: reports/interim/example01/heatmap_sensors_per_minute_per_time_segment.html, reports/interim/example02/heatmap_sensors_per_minute_per_time_segment.html
+    output: reports/data_exploration/heatmap_sensors_per_minute_per_time_segment.html
+    jobid: 186
+
+[Tue Apr 11 09:04:56 2023]
+Finished job 186.
+1 of 122 steps (0.82%) done
+
+[Tue Apr 11 09:04:56 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_battery_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_battery_with_datetime.csv, data/raw/example02/phone_battery_with_datetime.done
+    jobid: 191
+    wildcards: pid=example02, sensor=battery
+
+Touching output file data/raw/example02/phone_battery_with_datetime.done.
+[Tue Apr 11 09:04:57 2023]
+Finished job 191.
+2 of 122 steps (2%) done
+
+[Tue Apr 11 09:04:57 2023]
+rule resample_episodes:
+    input: data/interim/example02/phone_activity_recognition_episodes.csv
+    output: data/interim/example02/phone_activity_recognition_episodes_resampled.csv
+    jobid: 112
+    wildcards: pid=example02, sensor=phone_activity_recognition
+
+[Tue Apr 11 09:04:58 2023]
+Finished job 112.
+3 of 122 steps (2%) done
+
+[Tue Apr 11 09:04:58 2023]
+rule resample_episodes_with_datetime:
+    input: data/interim/example02/phone_activity_recognition_episodes_resampled.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/interim/example02/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/example02/phone_activity_recognition_episodes_resampled_with_datetime.done
+    jobid: 111
+    wildcards: pid=example02, sensor=phone_activity_recognition
+
+Touching output file data/interim/example02/phone_activity_recognition_episodes_resampled_with_datetime.done.
+[Tue Apr 11 09:05:01 2023]
+Finished job 111.
+4 of 122 steps (3%) done
+
+[Tue Apr 11 09:05:01 2023]
+rule phone_activity_recognition_python_features:
+    input: data/interim/example02/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv
+    jobid: 110
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:01 2023]
+Finished job 110.
+5 of 122 steps (4%) done
+
+[Tue Apr 11 09:05:01 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_screen_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_screen_with_datetime.csv, data/raw/example02/phone_screen_with_datetime.done
+    jobid: 153
+    wildcards: pid=example02, sensor=screen
+
+Touching output file data/raw/example02/phone_screen_with_datetime.done.
+[Tue Apr 11 09:05:03 2023]
+Finished job 153.
+6 of 122 steps (5%) done
+
+[Tue Apr 11 09:05:03 2023]
+rule screen_episodes:
+    input: data/raw/example02/phone_screen_with_datetime.csv
+    output: data/interim/example02/phone_screen_episodes.csv
+    jobid: 152
+    wildcards: pid=example02
+
+[Tue Apr 11 09:05:04 2023]
+Finished job 152.
+7 of 122 steps (6%) done
+
+[Tue Apr 11 09:05:04 2023]
+rule resample_episodes:
+    input: data/interim/example02/phone_screen_episodes.csv
+    output: data/interim/example02/phone_screen_episodes_resampled.csv
+    jobid: 151
+    wildcards: pid=example02, sensor=phone_screen
+
+[Tue Apr 11 09:05:05 2023]
+Finished job 151.
+8 of 122 steps (7%) done
+
+[Tue Apr 11 09:05:05 2023]
+rule resample_episodes_with_datetime:
+    input: data/interim/example02/phone_screen_episodes_resampled.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/interim/example02/phone_screen_episodes_resampled_with_datetime.csv, data/interim/example02/phone_screen_episodes_resampled_with_datetime.done
+    jobid: 150
+    wildcards: pid=example02, sensor=phone_screen
+
+Touching output file data/interim/example02/phone_screen_episodes_resampled_with_datetime.done.
+[Tue Apr 11 09:05:06 2023]
+Finished job 150.
+9 of 122 steps (7%) done
+
+[Tue Apr 11 09:05:06 2023]
+rule phone_screen_python_features:
+    input: data/interim/example02/phone_screen_episodes_resampled_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_screen_features/phone_screen_python_rapids.csv
+    jobid: 149
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:07 2023]
+Finished job 149.
+10 of 122 steps (8%) done
+
+[Tue Apr 11 09:05:07 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_conversation_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_conversation_with_datetime.csv, data/raw/example02/phone_conversation_with_datetime.done
+    jobid: 134
+    wildcards: pid=example02, sensor=conversation
+
+Touching output file data/raw/example02/phone_conversation_with_datetime.done.
+[Tue Apr 11 09:05:08 2023]
+Finished job 134.
+11 of 122 steps (9%) done
+
+[Tue Apr 11 09:05:08 2023]
+rule conversation_python_features:
+    input: data/raw/example02/phone_conversation_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_conversation_features/phone_conversation_python_rapids.csv
+    jobid: 133
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:09 2023]
+Finished job 133.
+12 of 122 steps (10%) done
+
+[Tue Apr 11 09:05:09 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/fitbit_steps_intraday_features/fitbit_steps_intraday_python_rapids.csv
+    output: data/processed/features/example02/fitbit_steps_intraday.csv
+    jobid: 176
+    wildcards: pid=example02, sensor_key=fitbit_steps_intraday
+
+[Tue Apr 11 09:05:09 2023]
+Finished job 176.
+13 of 122 steps (11%) done
+
+[Tue Apr 11 09:05:09 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_locations_features/phone_locations_python_doryab.csv
+    output: data/processed/features/example02/phone_locations.csv
+    jobid: 138
+    wildcards: pid=example02, sensor_key=phone_locations
+
+[Tue Apr 11 09:05:10 2023]
+Finished job 138.
+14 of 122 steps (11%) done
+
+[Tue Apr 11 09:05:10 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/fitbit_heartrate_intraday_features/fitbit_heartrate_intraday_python_rapids.csv
+    output: data/processed/features/example02/fitbit_heartrate_intraday.csv
+    jobid: 164
+    wildcards: pid=example02, sensor_key=fitbit_heartrate_intraday
+
+[Tue Apr 11 09:05:11 2023]
+Finished job 164.
+15 of 122 steps (12%) done
+
+[Tue Apr 11 09:05:11 2023]
+rule fitbit_readable_datetime:
+    input: data/raw/example02/fitbit_sleep_summary_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/fitbit_sleep_summary_with_datetime.csv, data/raw/example02/fitbit_sleep_summary_with_datetime.done
+    jobid: 170
+    wildcards: pid=example02, sensor=sleep_summary
+
+Touching output file data/raw/example02/fitbit_sleep_summary_with_datetime.done.
+[Tue Apr 11 09:05:12 2023]
+Finished job 170.
+16 of 122 steps (13%) done
+
+[Tue Apr 11 09:05:12 2023]
+rule fitbit_sleep_summary_python_features:
+    input: data/raw/example02/fitbit_sleep_summary_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/fitbit_sleep_summary_features/fitbit_sleep_summary_python_rapids.csv
+    jobid: 169
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:13 2023]
+Finished job 169.
+17 of 122 steps (14%) done
+
+[Tue Apr 11 09:05:13 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/fitbit_sleep_summary_features/fitbit_sleep_summary_python_rapids.csv
+    output: data/processed/features/example02/fitbit_sleep_summary.csv
+    jobid: 168
+    wildcards: pid=example02, sensor_key=fitbit_sleep_summary
+
+[Tue Apr 11 09:05:13 2023]
+Finished job 168.
+18 of 122 steps (15%) done
+
+[Tue Apr 11 09:05:13 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_screen_features/phone_screen_python_rapids.csv
+    output: data/processed/features/example02/phone_screen.csv
+    jobid: 148
+    wildcards: pid=example02, sensor_key=phone_screen
+
+[Tue Apr 11 09:05:14 2023]
+Finished job 148.
+19 of 122 steps (16%) done
+
+[Tue Apr 11 09:05:14 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_battery_features/phone_battery_python_rapids.csv
+    output: data/processed/features/example02/phone_battery.csv
+    jobid: 119
+    wildcards: pid=example02, sensor_key=phone_battery
+
+[Tue Apr 11 09:05:15 2023]
+Finished job 119.
+20 of 122 steps (16%) done
+
+[Tue Apr 11 09:05:15 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv
+    output: data/processed/features/example02/phone_activity_recognition.csv
+    jobid: 109
+    wildcards: pid=example02, sensor_key=phone_activity_recognition
+
+[Tue Apr 11 09:05:15 2023]
+Finished job 109.
+21 of 122 steps (17%) done
+
+[Tue Apr 11 09:05:15 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_conversation_features/phone_conversation_python_rapids.csv
+    output: data/processed/features/example02/phone_conversation.csv
+    jobid: 132
+    wildcards: pid=example02, sensor_key=phone_conversation
+
+[Tue Apr 11 09:05:16 2023]
+Finished job 132.
+22 of 122 steps (18%) done
+
+[Tue Apr 11 09:05:16 2023]
+rule fitbit_readable_datetime:
+    input: data/raw/example02/fitbit_heartrate_summary_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/fitbit_heartrate_summary_with_datetime.csv, data/raw/example02/fitbit_heartrate_summary_with_datetime.done
+    jobid: 162
+    wildcards: pid=example02, sensor=heartrate_summary
+
+Touching output file data/raw/example02/fitbit_heartrate_summary_with_datetime.done.
+[Tue Apr 11 09:05:17 2023]
+Finished job 162.
+23 of 122 steps (19%) done
+
+[Tue Apr 11 09:05:17 2023]
+rule fitbit_heartrate_summary_python_features:
+    input: data/raw/example02/fitbit_heartrate_summary_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/fitbit_heartrate_summary_features/fitbit_heartrate_summary_python_rapids.csv
+    jobid: 161
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:18 2023]
+Finished job 161.
+24 of 122 steps (20%) done
+
+[Tue Apr 11 09:05:18 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/fitbit_heartrate_summary_features/fitbit_heartrate_summary_python_rapids.csv
+    output: data/processed/features/example02/fitbit_heartrate_summary.csv
+    jobid: 160
+    wildcards: pid=example02, sensor_key=fitbit_heartrate_summary
+
+[Tue Apr 11 09:05:19 2023]
+Finished job 160.
+25 of 122 steps (20%) done
+
+[Tue Apr 11 09:05:19 2023]
+rule resample_episodes_with_datetime:
+    input: data/interim/example02/phone_calls_episodes_resampled.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/interim/example02/phone_calls_episodes_resampled_with_datetime.csv, data/interim/example02/phone_calls_episodes_resampled_with_datetime.done
+    jobid: 129
+    wildcards: pid=example02, sensor=phone_calls
+
+Touching output file data/interim/example02/phone_calls_episodes_resampled_with_datetime.done.
+[Tue Apr 11 09:05:20 2023]
+Finished job 129.
+26 of 122 steps (21%) done
+
+[Tue Apr 11 09:05:20 2023]
+rule phone_calls_r_features:
+    input: data/interim/example02/phone_calls_episodes_resampled_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_calls_features/phone_calls_r_rapids.csv
+    jobid: 128
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:21 2023]
+Finished job 128.
+27 of 122 steps (22%) done
+
+[Tue Apr 11 09:05:21 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_calls_features/phone_calls_r_rapids.csv
+    output: data/processed/features/example02/phone_calls.csv
+    jobid: 127
+    wildcards: pid=example02, sensor_key=phone_calls
+
+[Tue Apr 11 09:05:22 2023]
+Finished job 127.
+28 of 122 steps (23%) done
+
+[Tue Apr 11 09:05:22 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_data_yield_features/phone_data_yield_r_rapids.csv
+    output: data/processed/features/example02/phone_data_yield.csv
+    jobid: 35
+    wildcards: pid=example02, sensor_key=phone_data_yield
+
+[Tue Apr 11 09:05:22 2023]
+Finished job 35.
+29 of 122 steps (24%) done
+
+[Tue Apr 11 09:05:22 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_wifi_connected_features/phone_wifi_connected_r_rapids.csv
+    output: data/processed/features/example02/phone_wifi_connected.csv
+    jobid: 154
+    wildcards: pid=example02, sensor_key=phone_wifi_connected
+
+[Tue Apr 11 09:05:23 2023]
+Finished job 154.
+30 of 122 steps (25%) done
+
+[Tue Apr 11 09:05:23 2023]
+rule target_readable_datetime:
+    input: data/raw/example02/participant_target_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/participant_target_with_datetime.csv, data/raw/example02/participant_target_with_datetime.done
+    jobid: 206
+    wildcards: pid=example02
+
+Touching output file data/raw/example02/participant_target_with_datetime.done.
+[Tue Apr 11 09:05:25 2023]
+Finished job 206.
+31 of 122 steps (25%) done
+
+[Tue Apr 11 09:05:25 2023]
+rule parse_targets:
+    input: data/raw/example02/participant_target_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/processed/targets/example02/parsed_targets.csv
+    jobid: 208
+    wildcards: pid=example02
+
+[Tue Apr 11 09:05:25 2023]
+Finished job 208.
+32 of 122 steps (26%) done
+
+[Tue Apr 11 09:05:25 2023]
+rule fitbit_readable_datetime:
+    input: data/raw/example02/fitbit_steps_summary_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/fitbit_steps_summary_with_datetime.csv, data/raw/example02/fitbit_steps_summary_with_datetime.done
+    jobid: 174
+    wildcards: pid=example02, sensor=steps_summary
+
+Touching output file data/raw/example02/fitbit_steps_summary_with_datetime.done.
+[Tue Apr 11 09:05:26 2023]
+Finished job 174.
+33 of 122 steps (27%) done
+
+[Tue Apr 11 09:05:26 2023]
+rule fitbit_steps_summary_python_features:
+    input: data/raw/example02/fitbit_steps_summary_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/fitbit_steps_summary_features/fitbit_steps_summary_python_rapids.csv
+    jobid: 173
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:27 2023]
+Finished job 173.
+34 of 122 steps (28%) done
+
+[Tue Apr 11 09:05:27 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/fitbit_steps_summary_features/fitbit_steps_summary_python_rapids.csv
+    output: data/processed/features/example02/fitbit_steps_summary.csv
+    jobid: 172
+    wildcards: pid=example02, sensor_key=fitbit_steps_summary
+
+[Tue Apr 11 09:05:27 2023]
+Finished job 172.
+35 of 122 steps (29%) done
+
+[Tue Apr 11 09:05:27 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_calls_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_calls_with_datetime.csv, data/raw/example02/phone_calls_with_datetime.done
+    jobid: 182
+    wildcards: pid=example02, sensor=calls
+
+Touching output file data/raw/example02/phone_calls_with_datetime.done.
+[Tue Apr 11 09:05:29 2023]
+Finished job 182.
+36 of 122 steps (30%) done
+
+[Tue Apr 11 09:05:29 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_applications_foreground_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_applications_foreground_with_datetime.csv, data/raw/example02/phone_applications_foreground_with_datetime.done
+    jobid: 118
+    wildcards: pid=example02, sensor=applications_foreground
+
+Touching output file data/raw/example02/phone_applications_foreground_with_datetime.done.
+[Tue Apr 11 09:05:30 2023]
+Finished job 118.
+37 of 122 steps (30%) done
+
+[Tue Apr 11 09:05:30 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_wifi_visible_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_wifi_visible_with_datetime.csv, data/raw/example02/phone_wifi_visible_with_datetime.done
+    jobid: 159
+    wildcards: pid=example02, sensor=wifi_visible
+
+Touching output file data/raw/example02/phone_wifi_visible_with_datetime.done.
+[Tue Apr 11 09:05:31 2023]
+Finished job 159.
+38 of 122 steps (31%) done
+
+[Tue Apr 11 09:05:31 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_bluetooth_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_bluetooth_with_datetime.csv, data/raw/example02/phone_bluetooth_with_datetime.done
+    jobid: 126
+    wildcards: pid=example02, sensor=bluetooth
+
+Touching output file data/raw/example02/phone_bluetooth_with_datetime.done.
+[Tue Apr 11 09:05:33 2023]
+Finished job 126.
+39 of 122 steps (32%) done
+
+[Tue Apr 11 09:05:33 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_light_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_light_with_datetime.csv, data/raw/example02/phone_light_with_datetime.done
+    jobid: 137
+    wildcards: pid=example02, sensor=light
+
+Touching output file data/raw/example02/phone_light_with_datetime.done.
+[Tue Apr 11 09:05:34 2023]
+Finished job 137.
+40 of 122 steps (33%) done
+
+[Tue Apr 11 09:05:34 2023]
+rule phone_readable_datetime:
+    input: data/raw/example02/phone_messages_raw.csv, data/interim/time_segments/example02_time_segments.csv, data/external/participant_files/example02.yaml
+    output: data/raw/example02/phone_messages_with_datetime.csv, data/raw/example02/phone_messages_with_datetime.done
+    jobid: 147
+    wildcards: pid=example02, sensor=messages
+
+Touching output file data/raw/example02/phone_messages_with_datetime.done.
+[Tue Apr 11 09:05:35 2023]
+Finished job 147.
+41 of 122 steps (34%) done
+
+[Tue Apr 11 09:05:35 2023]
+rule heatmap_sensor_row_count_per_time_segment:
+    input: data/raw/example02/phone_activity_recognition_with_datetime.csv, data/raw/example02/phone_applications_foreground_with_datetime.csv, data/raw/example02/phone_battery_with_datetime.csv, data/raw/example02/phone_bluetooth_with_datetime.csv, data/raw/example02/phone_calls_with_datetime.csv, data/raw/example02/phone_conversation_with_datetime.csv, data/raw/example02/phone_light_with_datetime.csv, data/raw/example02/phone_locations_with_datetime.csv, data/raw/example02/phone_messages_with_datetime.csv, data/raw/example02/phone_screen_with_datetime.csv, data/raw/example02/phone_wifi_connected_with_datetime.csv, data/raw/example02/phone_wifi_visible_with_datetime.csv, data/processed/features/example02/phone_data_yield.csv, data/external/participant_files/example02.yaml, data/interim/time_segments/example02_time_segments_labels.csv
+    output: reports/interim/example02/heatmap_sensor_row_count_per_time_segment.html
+    jobid: 190
+    wildcards: pid=example02
+
+[Tue Apr 11 09:05:36 2023]
+Finished job 190.
+42 of 122 steps (34%) done
+
+[Tue Apr 11 09:05:36 2023]
+rule merge_heatmap_sensor_row_count_per_time_segment:
+    input: reports/interim/example01/heatmap_sensor_row_count_per_time_segment.html, reports/interim/example02/heatmap_sensor_row_count_per_time_segment.html
+    output: reports/data_exploration/heatmap_sensor_row_count_per_time_segment.html
+    jobid: 193
+
+[Tue Apr 11 09:05:37 2023]
+Finished job 193.
+43 of 122 steps (35%) done
+
+[Tue Apr 11 09:05:37 2023]
+rule phone_wifi_visible_r_features:
+    input: data/raw/example02/phone_wifi_visible_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_wifi_visible_features/phone_wifi_visible_r_rapids.csv
+    jobid: 158
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:38 2023]
+Finished job 158.
+44 of 122 steps (36%) done
+
+[Tue Apr 11 09:05:38 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_wifi_visible_features/phone_wifi_visible_r_rapids.csv
+    output: data/processed/features/example02/phone_wifi_visible.csv
+    jobid: 157
+    wildcards: pid=example02, sensor_key=phone_wifi_visible
+
+[Tue Apr 11 09:05:39 2023]
+Finished job 157.
+45 of 122 steps (37%) done
+
+[Tue Apr 11 09:05:39 2023]
+rule phone_bluetooth_r_features:
+    input: data/raw/example02/phone_bluetooth_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_bluetooth_features/phone_bluetooth_r_rapids.csv
+    jobid: 125
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:39 2023]
+Finished job 125.
+46 of 122 steps (38%) done
+
+[Tue Apr 11 09:05:39 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_bluetooth_features/phone_bluetooth_r_rapids.csv
+    output: data/processed/features/example02/phone_bluetooth.csv
+    jobid: 124
+    wildcards: pid=example02, sensor_key=phone_bluetooth
+
+[Tue Apr 11 09:05:40 2023]
+Finished job 124.
+47 of 122 steps (39%) done
+
+[Tue Apr 11 09:05:40 2023]
+rule phone_light_python_features:
+    input: data/raw/example02/phone_light_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_light_features/phone_light_python_rapids.csv
+    jobid: 136
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:40 2023]
+Finished job 136.
+48 of 122 steps (39%) done
+
+[Tue Apr 11 09:05:40 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_light_features/phone_light_python_rapids.csv
+    output: data/processed/features/example02/phone_light.csv
+    jobid: 135
+    wildcards: pid=example02, sensor_key=phone_light
+
+[Tue Apr 11 09:05:41 2023]
+Finished job 135.
+49 of 122 steps (40%) done
+
+[Tue Apr 11 09:05:41 2023]
+rule phone_application_categories:
+    input: data/raw/example02/phone_applications_foreground_with_datetime.csv
+    output: data/raw/example02/phone_applications_foreground_with_datetime_with_categories.csv
+    jobid: 117
+    wildcards: pid=example02, type=foreground
+
+[Tue Apr 11 09:05:42 2023]
+Finished job 117.
+50 of 122 steps (41%) done
+
+[Tue Apr 11 09:05:42 2023]
+rule phone_applications_foreground_python_features:
+    input: data/raw/example02/phone_applications_foreground_with_datetime_with_categories.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_applications_foreground_features/phone_applications_foreground_python_rapids.csv
+    jobid: 116
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:42 2023]
+Finished job 116.
+51 of 122 steps (42%) done
+
+[Tue Apr 11 09:05:42 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_applications_foreground_features/phone_applications_foreground_python_rapids.csv
+    output: data/processed/features/example02/phone_applications_foreground.csv
+    jobid: 115
+    wildcards: pid=example02, sensor_key=phone_applications_foreground
+
+[Tue Apr 11 09:05:43 2023]
+Finished job 115.
+52 of 122 steps (43%) done
+
+[Tue Apr 11 09:05:43 2023]
+rule activity_recognition_episodes:
+    input: data/raw/example01/phone_activity_recognition_with_datetime.csv
+    output: data/interim/example01/phone_activity_recognition_episodes.csv
+    jobid: 41
+    wildcards: pid=example01
+
+[Tue Apr 11 09:05:43 2023]
+Finished job 41.
+53 of 122 steps (43%) done
+
+[Tue Apr 11 09:05:43 2023]
+rule phone_messages_r_features:
+    input: data/raw/example02/phone_messages_with_datetime.csv, data/interim/time_segments/example02_time_segments_labels.csv
+    output: data/interim/example02/phone_messages_features/phone_messages_r_rapids.csv
+    jobid: 146
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:44 2023]
+Finished job 146.
+54 of 122 steps (44%) done
+
+[Tue Apr 11 09:05:44 2023]
+rule join_features_from_providers:
+    input: data/interim/example02/phone_messages_features/phone_messages_r_rapids.csv
+    output: data/processed/features/example02/phone_messages.csv
+    jobid: 145
+    wildcards: pid=example02, sensor_key=phone_messages
+
+[Tue Apr 11 09:05:45 2023]
+Finished job 145.
+55 of 122 steps (45%) done
+
+[Tue Apr 11 09:05:45 2023]
+rule merge_sensor_features_for_individual_participants:
+    input: data/processed/features/example02/phone_activity_recognition.csv, data/processed/features/example02/phone_applications_foreground.csv, data/processed/features/example02/phone_battery.csv, data/processed/features/example02/phone_bluetooth.csv, data/processed/features/example02/phone_calls.csv, data/processed/features/example02/phone_conversation.csv, data/processed/features/example02/phone_data_yield.csv, data/processed/features/example02/phone_light.csv, data/processed/features/example02/phone_locations.csv, data/processed/features/example02/phone_messages.csv, data/processed/features/example02/phone_screen.csv, data/processed/features/example02/phone_wifi_connected.csv, data/processed/features/example02/phone_wifi_visible.csv, data/processed/features/example02/fitbit_heartrate_summary.csv, data/processed/features/example02/fitbit_heartrate_intraday.csv, data/processed/features/example02/fitbit_sleep_summary.csv, data/processed/features/example02/fitbit_steps_summary.csv, data/processed/features/example02/fitbit_steps_intraday.csv
+    output: data/processed/features/example02/all_sensor_features.csv
+    jobid: 108
+    wildcards: pid=example02
+
+[Tue Apr 11 09:05:46 2023]
+Finished job 108.
+56 of 122 steps (46%) done
+
+[Tue Apr 11 09:05:46 2023]
+rule clean_sensor_features_for_individual_participants:
+    input: data/processed/features/example02/all_sensor_features.csv
+    output: data/processed/features/example02/all_sensor_features_cleaned_rapids.csv
+    jobid: 197
+    wildcards: pid=example02, provider_key=rapids
+
+[Tue Apr 11 09:05:48 2023]
+Finished job 197.
+57 of 122 steps (47%) done
+
+[Tue Apr 11 09:05:48 2023]
+rule merge_features_and_targets_for_individual_model:
+    input: data/processed/features/example02/all_sensor_features_cleaned_rapids.csv, data/processed/targets/example02/parsed_targets.csv
+    output: data/processed/models/individual_model/example02/input.csv
+    jobid: 210
+    wildcards: pid=example02
+
+[Tue Apr 11 09:05:48 2023]
+Finished job 210.
+58 of 122 steps (48%) done
+
+[Tue Apr 11 09:05:48 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/notes.log
+    jobid: 240
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=GB, scaler=notnormalized
+
+[Tue Apr 11 09:16:40 2023]
+Finished job 240.
+59 of 122 steps (48%) done
+
+[Tue Apr 11 09:16:40 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/notes.log
+    jobid: 237
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=SVM, scaler=robustscaler
+
+[Tue Apr 11 09:17:27 2023]
+Finished job 237.
+60 of 122 steps (49%) done
+
+[Tue Apr 11 09:17:27 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/notes.log
+    jobid: 239
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=RF, scaler=notnormalized
+
+[Tue Apr 11 09:19:52 2023]
+Finished job 239.
+61 of 122 steps (50%) done
+
+[Tue Apr 11 09:19:52 2023]
+rule baselines_for_individual_model:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/baselines.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/baselines_notes.log
+    jobid: 212
+    wildcards: pid=example02, cv_method=LeaveOneOut
+
+[Tue Apr 11 09:19:56 2023]
+Finished job 212.
+62 of 122 steps (51%) done
+
+[Tue Apr 11 09:19:56 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/notes.log
+    jobid: 228
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=LogReg, scaler=notnormalized
+
+[Tue Apr 11 09:20:57 2023]
+Finished job 228.
+63 of 122 steps (52%) done
+
+[Tue Apr 11 09:20:57 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/notes.log
+    jobid: 242
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=LightGBM, scaler=notnormalized
+
+[Tue Apr 11 09:33:41 2023]
+Finished job 242.
+64 of 122 steps (52%) done
+
+[Tue Apr 11 09:33:41 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/notes.log
+    jobid: 230
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=LogReg, scaler=standardscaler
+
+[Tue Apr 11 09:34:18 2023]
+Finished job 230.
+65 of 122 steps (53%) done
+
+[Tue Apr 11 09:34:18 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/notes.log
+    jobid: 232
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=kNN, scaler=minmaxscaler
+
+[Tue Apr 11 09:34:47 2023]
+Finished job 232.
+66 of 122 steps (54%) done
+
+[Tue Apr 11 09:34:47 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/notes.log
+    jobid: 234
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=kNN, scaler=robustscaler
+
+[Tue Apr 11 09:35:15 2023]
+Finished job 234.
+67 of 122 steps (55%) done
+
+[Tue Apr 11 09:35:15 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/notes.log
+    jobid: 236
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=SVM, scaler=standardscaler
+
+[Tue Apr 11 09:36:01 2023]
+Finished job 236.
+68 of 122 steps (56%) done
+
+[Tue Apr 11 09:36:01 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/notes.log
+    jobid: 238
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=DT, scaler=notnormalized
+
+[Tue Apr 11 09:37:04 2023]
+Finished job 238.
+69 of 122 steps (57%) done
+
+[Tue Apr 11 09:37:04 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/notes.log
+    jobid: 229
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=LogReg, scaler=minmaxscaler
+
+[Tue Apr 11 09:37:40 2023]
+Finished job 229.
+70 of 122 steps (57%) done
+
+[Tue Apr 11 09:37:40 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/notes.log
+    jobid: 241
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=XGBoost, scaler=notnormalized
+
+[Tue Apr 11 09:42:38 2023]
+Finished job 241.
+71 of 122 steps (58%) done
+
+[Tue Apr 11 09:42:38 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/notes.log
+    jobid: 231
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=LogReg, scaler=robustscaler
+
+[Tue Apr 11 09:43:20 2023]
+Finished job 231.
+72 of 122 steps (59%) done
+
+[Tue Apr 11 09:43:20 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/notes.log
+    jobid: 233
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=kNN, scaler=standardscaler
+
+[Tue Apr 11 09:43:49 2023]
+Finished job 233.
+73 of 122 steps (60%) done
+
+[Tue Apr 11 09:43:49 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example02/input.csv
+    output: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/notes.log
+    jobid: 235
+    wildcards: pid=example02, cv_method=LeaveOneOut, model=SVM, scaler=minmaxscaler
+
+[Tue Apr 11 09:44:35 2023]
+Finished job 235.
+74 of 122 steps (61%) done
+
+[Tue Apr 11 09:44:35 2023]
+rule demographic_features:
+    input: data/raw/example01/participant_info_raw.csv
+    output: data/processed/features/example01/demographic_features.csv
+    jobid: 201
+    wildcards: pid=example01
+
+[Tue Apr 11 09:44:35 2023]
+Finished job 201.
+75 of 122 steps (61%) done
+
+[Tue Apr 11 09:44:35 2023]
+rule demographic_features:
+    input: data/raw/example02/participant_info_raw.csv
+    output: data/processed/features/example02/demographic_features.csv
+    jobid: 202
+    wildcards: pid=example02
+
+[Tue Apr 11 09:44:35 2023]
+Finished job 202.
+76 of 122 steps (62%) done
+
+[Tue Apr 11 09:44:35 2023]
+rule resample_episodes:
+    input: data/interim/example01/phone_activity_recognition_episodes.csv
+    output: data/interim/example01/phone_activity_recognition_episodes_resampled.csv
+    jobid: 40
+    wildcards: pid=example01, sensor=phone_activity_recognition
+
+[Tue Apr 11 09:44:36 2023]
+Finished job 40.
+77 of 122 steps (63%) done
+
+[Tue Apr 11 09:44:36 2023]
+rule resample_episodes_with_datetime:
+    input: data/interim/example01/phone_activity_recognition_episodes_resampled.csv, data/interim/time_segments/example01_time_segments.csv, data/external/participant_files/example01.yaml
+    output: data/interim/example01/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/example01/phone_activity_recognition_episodes_resampled_with_datetime.done
+    jobid: 39
+    wildcards: pid=example01, sensor=phone_activity_recognition
+
+Touching output file data/interim/example01/phone_activity_recognition_episodes_resampled_with_datetime.done.
+[Tue Apr 11 09:44:37 2023]
+Finished job 39.
+78 of 122 steps (64%) done
+
+[Tue Apr 11 09:44:37 2023]
+rule phone_activity_recognition_python_features:
+    input: data/interim/example01/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/time_segments/example01_time_segments_labels.csv
+    output: data/interim/example01/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv
+    jobid: 38
+    wildcards: pid=example01, provider_key=rapids
+
+[Tue Apr 11 09:44:38 2023]
+Finished job 38.
+79 of 122 steps (65%) done
+
+[Tue Apr 11 09:44:38 2023]
+rule join_features_from_providers:
+    input: data/interim/example01/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv
+    output: data/processed/features/example01/phone_activity_recognition.csv
+    jobid: 37
+    wildcards: pid=example01, sensor_key=phone_activity_recognition
+
+[Tue Apr 11 09:44:38 2023]
+Finished job 37.
+80 of 122 steps (66%) done
+
+[Tue Apr 11 09:44:38 2023]
+rule merge_sensor_features_for_individual_participants:
+    input: data/processed/features/example01/phone_activity_recognition.csv, data/processed/features/example01/phone_applications_foreground.csv, data/processed/features/example01/phone_battery.csv, data/processed/features/example01/phone_bluetooth.csv, data/processed/features/example01/phone_calls.csv, data/processed/features/example01/phone_conversation.csv, data/processed/features/example01/phone_data_yield.csv, data/processed/features/example01/phone_light.csv, data/processed/features/example01/phone_locations.csv, data/processed/features/example01/phone_messages.csv, data/processed/features/example01/phone_screen.csv, data/processed/features/example01/phone_wifi_connected.csv, data/processed/features/example01/phone_wifi_visible.csv, data/processed/features/example01/fitbit_heartrate_summary.csv, data/processed/features/example01/fitbit_heartrate_intraday.csv, data/processed/features/example01/fitbit_sleep_summary.csv, data/processed/features/example01/fitbit_steps_summary.csv, data/processed/features/example01/fitbit_steps_intraday.csv
+    output: data/processed/features/example01/all_sensor_features.csv
+    jobid: 36
+    wildcards: pid=example01
+
+[Tue Apr 11 09:44:39 2023]
+Finished job 36.
+81 of 122 steps (66%) done
+
+[Tue Apr 11 09:44:39 2023]
+rule merge_sensor_features_for_all_participants:
+    input: data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv
+    output: data/processed/features/all_participants/all_sensor_features.csv
+    jobid: 180
+
+[Tue Apr 11 09:44:40 2023]
+Finished job 180.
+82 of 122 steps (67%) done
+
+[Tue Apr 11 09:44:40 2023]
+rule heatmap_phone_data_yield_per_participant_per_time_segment:
+    input: data/external/participant_files/example01.yaml, data/external/participant_files/example02.yaml, example_profile/exampleworkflow_timesegments.csv, data/processed/features/all_participants/all_sensor_features.csv
+    output: reports/data_exploration/heatmap_phone_data_yield_per_participant_per_time_segment.html
+    jobid: 194
+
+[Tue Apr 11 09:44:40 2023]
+Finished job 194.
+83 of 122 steps (68%) done
+
+[Tue Apr 11 09:44:40 2023]
+rule heatmap_feature_correlation_matrix:
+    input: data/processed/features/all_participants/all_sensor_features.csv
+    output: reports/data_exploration/heatmap_feature_correlation_matrix.html
+    jobid: 195
+
+[Tue Apr 11 09:44:41 2023]
+Finished job 195.
+84 of 122 steps (69%) done
+
+[Tue Apr 11 09:44:41 2023]
+rule histogram_phone_data_yield:
+    input: data/processed/features/all_participants/all_sensor_features.csv
+    output: reports/data_exploration/histogram_phone_data_yield.html
+    jobid: 183
+
+[Tue Apr 11 09:44:41 2023]
+Finished job 183.
+85 of 122 steps (70%) done
+
+[Tue Apr 11 09:44:41 2023]
+rule clean_sensor_features_for_all_participants:
+    input: data/processed/features/all_participants/all_sensor_features.csv
+    output: data/processed/features/all_participants/all_sensor_features_cleaned_rapids.csv
+    jobid: 198
+    wildcards: provider_key=rapids
+
+[Tue Apr 11 09:44:44 2023]
+Finished job 198.
+86 of 122 steps (70%) done
+
+[Tue Apr 11 09:44:44 2023]
+rule clean_sensor_features_for_individual_participants:
+    input: data/processed/features/example01/all_sensor_features.csv
+    output: data/processed/features/example01/all_sensor_features_cleaned_rapids.csv
+    jobid: 196
+    wildcards: pid=example01, provider_key=rapids
+
+[Tue Apr 11 09:44:46 2023]
+Finished job 196.
+87 of 122 steps (71%) done
+
+[Tue Apr 11 09:44:46 2023]
+rule merge_features_and_targets_for_population_model:
+    input: data/processed/features/all_participants/all_sensor_features_cleaned_rapids.csv, data/processed/features/example01/demographic_features.csv, data/processed/features/example02/demographic_features.csv, data/processed/targets/example01/parsed_targets.csv, data/processed/targets/example02/parsed_targets.csv
+    output: data/processed/models/population_model/input.csv
+    jobid: 243
+
+[Tue Apr 11 09:44:46 2023]
+Finished job 243.
+88 of 122 steps (72%) done
+
+[Tue Apr 11 09:44:46 2023]
+rule merge_features_and_targets_for_individual_model:
+    input: data/processed/features/example01/all_sensor_features_cleaned_rapids.csv, data/processed/targets/example01/parsed_targets.csv
+    output: data/processed/models/individual_model/example01/input.csv
+    jobid: 209
+    wildcards: pid=example01
+
+[Tue Apr 11 09:44:47 2023]
+Finished job 209.
+89 of 122 steps (73%) done
+
+[Tue Apr 11 09:44:47 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/notes.log
+    jobid: 254
+    wildcards: cv_method=LeaveOneOut, model=SVM, scaler=robustscaler
+
+[Tue Apr 11 09:47:51 2023]
+Finished job 254.
+90 of 122 steps (74%) done
+
+[Tue Apr 11 09:47:51 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/notes.log
+    jobid: 248
+    wildcards: cv_method=LeaveOneOut, model=LogReg, scaler=robustscaler
+
+[Tue Apr 11 09:51:01 2023]
+Finished job 248.
+91 of 122 steps (75%) done
+
+[Tue Apr 11 09:51:01 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/notes.log
+    jobid: 255
+    wildcards: cv_method=LeaveOneOut, model=DT, scaler=notnormalized
+
+[Tue Apr 11 09:54:35 2023]
+Finished job 255.
+92 of 122 steps (75%) done
+
+[Tue Apr 11 09:54:35 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/notes.log
+    jobid: 249
+    wildcards: cv_method=LeaveOneOut, model=kNN, scaler=minmaxscaler
+
+[Tue Apr 11 09:56:25 2023]
+Finished job 249.
+93 of 122 steps (76%) done
+
+[Tue Apr 11 09:56:25 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/notes.log
+    jobid: 256
+    wildcards: cv_method=LeaveOneOut, model=RF, scaler=notnormalized
+
+[Tue Apr 11 10:05:08 2023]
+Finished job 256.
+94 of 122 steps (77%) done
+
+[Tue Apr 11 10:05:08 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/notes.log
+    jobid: 247
+    wildcards: cv_method=LeaveOneOut, model=LogReg, scaler=standardscaler
+
+[Tue Apr 11 10:07:31 2023]
+Finished job 247.
+95 of 122 steps (78%) done
+
+[Tue Apr 11 10:07:31 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/notes.log
+    jobid: 250
+    wildcards: cv_method=LeaveOneOut, model=kNN, scaler=standardscaler
+
+[Tue Apr 11 10:09:20 2023]
+Finished job 250.
+96 of 122 steps (79%) done
+
+[Tue Apr 11 10:09:20 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/notes.log
+    jobid: 257
+    wildcards: cv_method=LeaveOneOut, model=GB, scaler=notnormalized
+
+[Tue Apr 11 11:02:01 2023]
+Finished job 257.
+97 of 122 steps (80%) done
+
+[Tue Apr 11 11:02:01 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/notes.log
+    jobid: 251
+    wildcards: cv_method=LeaveOneOut, model=kNN, scaler=robustscaler
+
+[Tue Apr 11 11:03:51 2023]
+Finished job 251.
+98 of 122 steps (80%) done
+
+[Tue Apr 11 11:03:51 2023]
+rule baselines_for_population_model:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/baselines.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/baselines_notes.log
+    jobid: 244
+    wildcards: cv_method=LeaveOneOut
+
+[Tue Apr 11 11:03:55 2023]
+Finished job 244.
+99 of 122 steps (81%) done
+
+[Tue Apr 11 11:03:55 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/notes.log
+    jobid: 258
+    wildcards: cv_method=LeaveOneOut, model=XGBoost, scaler=notnormalized
+
+[Tue Apr 11 11:23:29 2023]
+Finished job 258.
+100 of 122 steps (82%) done
+
+[Tue Apr 11 11:23:29 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/notes.log
+    jobid: 252
+    wildcards: cv_method=LeaveOneOut, model=SVM, scaler=minmaxscaler
+
+[Tue Apr 11 11:26:34 2023]
+Finished job 252.
+101 of 122 steps (83%) done
+
+[Tue Apr 11 11:26:34 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/notes.log
+    jobid: 259
+    wildcards: cv_method=LeaveOneOut, model=LightGBM, scaler=notnormalized
+
+[Tue Apr 11 12:11:54 2023]
+Finished job 259.
+102 of 122 steps (84%) done
+
+[Tue Apr 11 12:11:54 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/notes.log
+    jobid: 245
+    wildcards: cv_method=LeaveOneOut, model=LogReg, scaler=notnormalized
+
+[Tue Apr 11 12:17:17 2023]
+Finished job 245.
+103 of 122 steps (84%) done
+
+[Tue Apr 11 12:17:17 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/notes.log
+    jobid: 253
+    wildcards: cv_method=LeaveOneOut, model=SVM, scaler=standardscaler
+
+[Tue Apr 11 12:20:21 2023]
+Finished job 253.
+104 of 122 steps (85%) done
+
+[Tue Apr 11 12:20:21 2023]
+rule modelling_for_all_participants:
+    input: data/processed/models/population_model/input.csv
+    output: data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/notes.log
+    jobid: 246
+    wildcards: cv_method=LeaveOneOut, model=LogReg, scaler=minmaxscaler
+
+[Tue Apr 11 12:22:43 2023]
+Finished job 246.
+105 of 122 steps (86%) done
+
+[Tue Apr 11 12:22:43 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/notes.log
+    jobid: 223
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=DT, scaler=notnormalized
+
+[Tue Apr 11 12:23:49 2023]
+Finished job 223.
+106 of 122 steps (87%) done
+
+[Tue Apr 11 12:23:49 2023]
+rule baselines_for_individual_model:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/baselines.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/baselines_notes.log
+    jobid: 211
+    wildcards: pid=example01, cv_method=LeaveOneOut
+
+[Tue Apr 11 12:23:53 2023]
+Finished job 211.
+107 of 122 steps (88%) done
+
+[Tue Apr 11 12:23:53 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/notes.log
+    jobid: 225
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=GB, scaler=notnormalized
+
+[Tue Apr 11 12:33:53 2023]
+Finished job 225.
+108 of 122 steps (89%) done
+
+[Tue Apr 11 12:33:53 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/notes.log
+    jobid: 226
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=XGBoost, scaler=notnormalized
+
+[Tue Apr 11 12:39:15 2023]
+Finished job 226.
+109 of 122 steps (89%) done
+
+[Tue Apr 11 12:39:15 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/notes.log
+    jobid: 214
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=LogReg, scaler=minmaxscaler
+
+[Tue Apr 11 12:39:55 2023]
+Finished job 214.
+110 of 122 steps (90%) done
+
+[Tue Apr 11 12:39:55 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/notes.log
+    jobid: 216
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=LogReg, scaler=robustscaler
+
+[Tue Apr 11 12:40:41 2023]
+Finished job 216.
+111 of 122 steps (91%) done
+
+[Tue Apr 11 12:40:41 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/notes.log
+    jobid: 218
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=kNN, scaler=standardscaler
+
+[Tue Apr 11 12:41:13 2023]
+Finished job 218.
+112 of 122 steps (92%) done
+
+[Tue Apr 11 12:41:13 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/notes.log
+    jobid: 220
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=SVM, scaler=minmaxscaler
+
+[Tue Apr 11 12:42:07 2023]
+Finished job 220.
+113 of 122 steps (93%) done
+
+[Tue Apr 11 12:42:07 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/notes.log
+    jobid: 222
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=SVM, scaler=robustscaler
+
+[Tue Apr 11 12:43:02 2023]
+Finished job 222.
+114 of 122 steps (93%) done
+
+[Tue Apr 11 12:43:02 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/notes.log
+    jobid: 224
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=RF, scaler=notnormalized
+
+[Tue Apr 11 12:45:09 2023]
+Finished job 224.
+115 of 122 steps (94%) done
+
+[Tue Apr 11 12:45:09 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/notes.log
+    jobid: 213
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=LogReg, scaler=notnormalized
+
+[Tue Apr 11 12:46:38 2023]
+Finished job 213.
+116 of 122 steps (95%) done
+
+[Tue Apr 11 12:46:38 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/notes.log
+    jobid: 227
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=LightGBM, scaler=notnormalized
+
+[Tue Apr 11 13:00:18 2023]
+Finished job 227.
+117 of 122 steps (96%) done
+
+[Tue Apr 11 13:00:18 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/notes.log
+    jobid: 215
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=LogReg, scaler=standardscaler
+
+[Tue Apr 11 13:00:57 2023]
+Finished job 215.
+118 of 122 steps (97%) done
+
+[Tue Apr 11 13:00:57 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/notes.log
+    jobid: 217
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=kNN, scaler=minmaxscaler
+
+[Tue Apr 11 13:01:30 2023]
+Finished job 217.
+119 of 122 steps (98%) done
+
+[Tue Apr 11 13:01:30 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/notes.log
+    jobid: 219
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=kNN, scaler=robustscaler
+
+[Tue Apr 11 13:02:02 2023]
+Finished job 219.
+120 of 122 steps (98%) done
+
+[Tue Apr 11 13:02:02 2023]
+rule modelling_for_individual_participants:
+    input: data/processed/models/individual_model/example01/input.csv
+    output: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv
+    log: data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/notes.log
+    jobid: 221
+    wildcards: pid=example01, cv_method=LeaveOneOut, model=SVM, scaler=standardscaler
+
+[Tue Apr 11 13:02:55 2023]
+Finished job 221.
+121 of 122 steps (99%) done
+
+[Tue Apr 11 13:02:55 2023]
+localrule all:
+    input: data/raw/example01/phone_activity_recognition_raw.csv, data/raw/example01/phone_applications_foreground_raw.csv, data/raw/example01/phone_battery_raw.csv, data/raw/example01/phone_bluetooth_raw.csv, data/raw/example01/phone_calls_raw.csv, data/raw/example01/phone_conversation_raw.csv, data/raw/example01/phone_light_raw.csv, data/raw/example01/phone_locations_raw.csv, data/raw/example01/phone_messages_raw.csv, data/raw/example01/phone_screen_raw.csv, data/raw/example01/phone_wifi_connected_raw.csv, data/raw/example01/phone_wifi_visible_raw.csv, data/raw/example02/phone_activity_recognition_raw.csv, data/raw/example02/phone_applications_foreground_raw.csv, data/raw/example02/phone_battery_raw.csv, data/raw/example02/phone_bluetooth_raw.csv, data/raw/example02/phone_calls_raw.csv, data/raw/example02/phone_conversation_raw.csv, data/raw/example02/phone_light_raw.csv, data/raw/example02/phone_locations_raw.csv, data/raw/example02/phone_messages_raw.csv, data/raw/example02/phone_screen_raw.csv, data/raw/example02/phone_wifi_connected_raw.csv, data/raw/example02/phone_wifi_visible_raw.csv, data/interim/example01/phone_yielded_timestamps.csv, data/interim/example02/phone_yielded_timestamps.csv, data/interim/example01/phone_yielded_timestamps_with_datetime.csv, data/interim/example02/phone_yielded_timestamps_with_datetime.csv, data/interim/example01/phone_data_yield_features/phone_data_yield_r_rapids.csv, data/interim/example02/phone_data_yield_features/phone_data_yield_r_rapids.csv, data/processed/features/example01/phone_data_yield.csv, data/processed/features/example02/phone_data_yield.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_messages_raw.csv, data/raw/example02/phone_messages_raw.csv, data/raw/example01/phone_messages_with_datetime.csv, data/raw/example02/phone_messages_with_datetime.csv, data/interim/example01/phone_messages_features/phone_messages_r_rapids.csv, data/interim/example02/phone_messages_features/phone_messages_r_rapids.csv, data/processed/features/example01/phone_messages.csv, data/processed/features/example02/phone_messages.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_calls_raw.csv, data/raw/example02/phone_calls_raw.csv, data/raw/example01/phone_calls_with_datetime.csv, data/raw/example02/phone_calls_with_datetime.csv, data/interim/example01/phone_calls_features/phone_calls_r_rapids.csv, data/interim/example02/phone_calls_features/phone_calls_r_rapids.csv, data/processed/features/example01/phone_calls.csv, data/processed/features/example02/phone_calls.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_bluetooth_raw.csv, data/raw/example02/phone_bluetooth_raw.csv, data/raw/example01/phone_bluetooth_with_datetime.csv, data/raw/example02/phone_bluetooth_with_datetime.csv, data/interim/example01/phone_bluetooth_features/phone_bluetooth_r_rapids.csv, data/interim/example02/phone_bluetooth_features/phone_bluetooth_r_rapids.csv, data/processed/features/example01/phone_bluetooth.csv, data/processed/features/example02/phone_bluetooth.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_activity_recognition_raw.csv, data/raw/example02/phone_activity_recognition_raw.csv, data/raw/example01/phone_activity_recognition_with_datetime.csv, data/raw/example02/phone_activity_recognition_with_datetime.csv, data/interim/example01/phone_activity_recognition_episodes.csv, data/interim/example02/phone_activity_recognition_episodes.csv, data/interim/example01/phone_activity_recognition_episodes_resampled.csv, data/interim/example02/phone_activity_recognition_episodes_resampled.csv, data/interim/example01/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/example02/phone_activity_recognition_episodes_resampled_with_datetime.csv, data/interim/example01/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv, data/interim/example02/phone_activity_recognition_features/phone_activity_recognition_python_rapids.csv, data/processed/features/example01/phone_activity_recognition.csv, data/processed/features/example02/phone_activity_recognition.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_battery_raw.csv, data/raw/example02/phone_battery_raw.csv, data/interim/example01/phone_battery_episodes.csv, data/interim/example02/phone_battery_episodes.csv, data/interim/example01/phone_battery_episodes_resampled.csv, data/interim/example02/phone_battery_episodes_resampled.csv, data/interim/example01/phone_battery_episodes_resampled_with_datetime.csv, data/interim/example02/phone_battery_episodes_resampled_with_datetime.csv, data/interim/example01/phone_battery_features/phone_battery_python_rapids.csv, data/interim/example02/phone_battery_features/phone_battery_python_rapids.csv, data/processed/features/example01/phone_battery.csv, data/processed/features/example02/phone_battery.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_screen_raw.csv, data/raw/example02/phone_screen_raw.csv, data/raw/example01/phone_screen_with_datetime.csv, data/raw/example02/phone_screen_with_datetime.csv, data/interim/example01/phone_screen_episodes.csv, data/interim/example02/phone_screen_episodes.csv, data/interim/example01/phone_screen_episodes_resampled.csv, data/interim/example02/phone_screen_episodes_resampled.csv, data/interim/example01/phone_screen_episodes_resampled_with_datetime.csv, data/interim/example02/phone_screen_episodes_resampled_with_datetime.csv, data/interim/example01/phone_screen_features/phone_screen_python_rapids.csv, data/interim/example02/phone_screen_features/phone_screen_python_rapids.csv, data/processed/features/example01/phone_screen.csv, data/processed/features/example02/phone_screen.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_light_raw.csv, data/raw/example02/phone_light_raw.csv, data/raw/example01/phone_light_with_datetime.csv, data/raw/example02/phone_light_with_datetime.csv, data/interim/example01/phone_light_features/phone_light_python_rapids.csv, data/interim/example02/phone_light_features/phone_light_python_rapids.csv, data/processed/features/example01/phone_light.csv, data/processed/features/example02/phone_light.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_applications_foreground_raw.csv, data/raw/example02/phone_applications_foreground_raw.csv, data/raw/example01/phone_applications_foreground_with_datetime.csv, data/raw/example02/phone_applications_foreground_with_datetime.csv, data/raw/example01/phone_applications_foreground_with_datetime_with_categories.csv, data/raw/example02/phone_applications_foreground_with_datetime_with_categories.csv, data/interim/example01/phone_applications_foreground_features/phone_applications_foreground_python_rapids.csv, data/interim/example02/phone_applications_foreground_features/phone_applications_foreground_python_rapids.csv, data/processed/features/example01/phone_applications_foreground.csv, data/processed/features/example02/phone_applications_foreground.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_wifi_visible_raw.csv, data/raw/example02/phone_wifi_visible_raw.csv, data/raw/example01/phone_wifi_visible_with_datetime.csv, data/raw/example02/phone_wifi_visible_with_datetime.csv, data/interim/example01/phone_wifi_visible_features/phone_wifi_visible_r_rapids.csv, data/interim/example02/phone_wifi_visible_features/phone_wifi_visible_r_rapids.csv, data/processed/features/example01/phone_wifi_visible.csv, data/processed/features/example02/phone_wifi_visible.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_wifi_connected_raw.csv, data/raw/example02/phone_wifi_connected_raw.csv, data/raw/example01/phone_wifi_connected_with_datetime.csv, data/raw/example02/phone_wifi_connected_with_datetime.csv, data/interim/example01/phone_wifi_connected_features/phone_wifi_connected_r_rapids.csv, data/interim/example02/phone_wifi_connected_features/phone_wifi_connected_r_rapids.csv, data/processed/features/example01/phone_wifi_connected.csv, data/processed/features/example02/phone_wifi_connected.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/phone_conversation_raw.csv, data/raw/example02/phone_conversation_raw.csv, data/raw/example01/phone_conversation_with_datetime.csv, data/raw/example02/phone_conversation_with_datetime.csv, data/interim/example01/phone_conversation_features/phone_conversation_python_rapids.csv, data/interim/example02/phone_conversation_features/phone_conversation_python_rapids.csv, data/processed/features/example01/phone_conversation.csv, data/processed/features/example02/phone_conversation.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/interim/example01/phone_yielded_timestamps.csv, data/interim/example02/phone_yielded_timestamps.csv, data/interim/example01/phone_locations_processed_with_datetime_with_doryab_columns_episodes.csv, data/interim/example02/phone_locations_processed_with_datetime_with_doryab_columns_episodes.csv, data/interim/example01/phone_locations_processed_with_datetime_with_doryab_columns_episodes_resampled_with_datetime.csv, data/interim/example02/phone_locations_processed_with_datetime_with_doryab_columns_episodes_resampled_with_datetime.csv, data/raw/example01/phone_locations_raw.csv, data/raw/example02/phone_locations_raw.csv, data/interim/example01/phone_locations_processed.csv, data/interim/example02/phone_locations_processed.csv, data/interim/example01/phone_locations_processed_with_datetime.csv, data/interim/example02/phone_locations_processed_with_datetime.csv, data/interim/example01/phone_locations_features/phone_locations_python_doryab.csv, data/interim/example02/phone_locations_features/phone_locations_python_doryab.csv, data/processed/features/example01/phone_locations.csv, data/processed/features/example02/phone_locations.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/fitbit_heartrate_summary_raw.csv, data/raw/example02/fitbit_heartrate_summary_raw.csv, data/raw/example01/fitbit_heartrate_summary_with_datetime.csv, data/raw/example02/fitbit_heartrate_summary_with_datetime.csv, data/interim/example01/fitbit_heartrate_summary_features/fitbit_heartrate_summary_python_rapids.csv, data/interim/example02/fitbit_heartrate_summary_features/fitbit_heartrate_summary_python_rapids.csv, data/processed/features/example01/fitbit_heartrate_summary.csv, data/processed/features/example02/fitbit_heartrate_summary.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/fitbit_heartrate_intraday_raw.csv, data/raw/example02/fitbit_heartrate_intraday_raw.csv, data/raw/example01/fitbit_heartrate_intraday_with_datetime.csv, data/raw/example02/fitbit_heartrate_intraday_with_datetime.csv, data/interim/example01/fitbit_heartrate_intraday_features/fitbit_heartrate_intraday_python_rapids.csv, data/interim/example02/fitbit_heartrate_intraday_features/fitbit_heartrate_intraday_python_rapids.csv, data/processed/features/example01/fitbit_heartrate_intraday.csv, data/processed/features/example02/fitbit_heartrate_intraday.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/fitbit_sleep_summary_raw.csv, data/raw/example02/fitbit_sleep_summary_raw.csv, data/raw/example01/fitbit_sleep_summary_with_datetime.csv, data/raw/example02/fitbit_sleep_summary_with_datetime.csv, data/interim/example01/fitbit_sleep_summary_features/fitbit_sleep_summary_python_rapids.csv, data/interim/example02/fitbit_sleep_summary_features/fitbit_sleep_summary_python_rapids.csv, data/processed/features/example01/fitbit_sleep_summary.csv, data/processed/features/example02/fitbit_sleep_summary.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/fitbit_steps_summary_raw.csv, data/raw/example02/fitbit_steps_summary_raw.csv, data/raw/example01/fitbit_steps_summary_with_datetime.csv, data/raw/example02/fitbit_steps_summary_with_datetime.csv, data/interim/example01/fitbit_steps_summary_features/fitbit_steps_summary_python_rapids.csv, data/interim/example02/fitbit_steps_summary_features/fitbit_steps_summary_python_rapids.csv, data/processed/features/example01/fitbit_steps_summary.csv, data/processed/features/example02/fitbit_steps_summary.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, data/raw/example01/fitbit_steps_intraday_raw.csv, data/raw/example02/fitbit_steps_intraday_raw.csv, data/raw/example01/fitbit_steps_intraday_with_datetime.csv, data/raw/example02/fitbit_steps_intraday_with_datetime.csv, data/interim/example01/fitbit_steps_intraday_features/fitbit_steps_intraday_python_rapids.csv, data/interim/example02/fitbit_steps_intraday_features/fitbit_steps_intraday_python_rapids.csv, data/processed/features/example01/fitbit_steps_intraday.csv, data/processed/features/example02/fitbit_steps_intraday.csv, data/processed/features/example01/all_sensor_features.csv, data/processed/features/example02/all_sensor_features.csv, data/processed/features/all_participants/all_sensor_features.csv, reports/data_exploration/histogram_phone_data_yield.html, reports/interim/example01/heatmap_sensors_per_minute_per_time_segment.html, reports/interim/example02/heatmap_sensors_per_minute_per_time_segment.html, reports/data_exploration/heatmap_sensors_per_minute_per_time_segment.html, reports/interim/example01/heatmap_sensor_row_count_per_time_segment.html, reports/interim/example02/heatmap_sensor_row_count_per_time_segment.html, reports/data_exploration/heatmap_sensor_row_count_per_time_segment.html, reports/data_exploration/heatmap_phone_data_yield_per_participant_per_time_segment.html, reports/data_exploration/heatmap_feature_correlation_matrix.html, data/processed/features/example01/all_sensor_features_cleaned_rapids.csv, data/processed/features/example02/all_sensor_features_cleaned_rapids.csv, data/processed/features/all_participants/all_sensor_features_cleaned_rapids.csv, data/raw/example01/participant_info_raw.csv, data/raw/example02/participant_info_raw.csv, data/processed/features/example01/demographic_features.csv, data/processed/features/example02/demographic_features.csv, data/raw/example01/participant_target_raw.csv, data/raw/example02/participant_target_raw.csv, data/raw/example01/participant_target_with_datetime.csv, data/raw/example02/participant_target_with_datetime.csv, data/processed/targets/example01/parsed_targets.csv, data/processed/targets/example02/parsed_targets.csv, data/processed/models/individual_model/example01/input.csv, data/processed/models/individual_model/example02/input.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/baselines.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/baselines.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example01/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv, data/processed/models/individual_model/example02/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/input.csv, data/processed/models/population_model/output_LeaveOneOut/baselines.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_predictions.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_metrics.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/overall_results.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/minmaxscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/standardscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/LogReg/robustscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/minmaxscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/standardscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/kNN/robustscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/minmaxscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/standardscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/SVM/robustscaler/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/DT/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/RF/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/GB/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/XGBoost/notnormalized/fold_feature_importances.csv, data/processed/models/population_model/output_LeaveOneOut/LightGBM/notnormalized/fold_feature_importances.csv
+    jobid: 0
+
+[Tue Apr 11 13:02:55 2023]
+Finished job 0.
+122 of 122 steps (100%) done
+Complete log: /home/nursing-infomatics/rapids/.snakemake/log/2023-04-11T090453.560842.snakemake.log

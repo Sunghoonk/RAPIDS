@@ -1,0 +1,8 @@
+GALAXYFIT_HEARTRATE: 
+  RAPIDS_COLUMN_MAPPINGS:
+    TIMESTAMP: timestamp
+    DEVICE_ID: device_id
+    HEARTRATE: heartrate
+  MUTATION:
+    COLUMN_MAPPINGS:
+    SCRIPTS: # List any python or r scripts that mutate your raw data
