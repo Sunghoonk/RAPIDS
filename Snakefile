@@ -361,7 +361,7 @@ for provider in config["EMPATICA_INTER_BEAT_INTERVAL"]["PROVIDERS"].keys():
         files_to_compute.extend(expand("data/raw/{pid}/empatica_inter_beat_interval_with_datetime.csv", pid=config["PIDS"]))
         files_to_compute.extend(expand("data/interim/{pid}/empatica_inter_beat_interval_features/empatica_inter_beat_interval_{language}_{provider_key}.csv", pid=config["PIDS"], language=get_script_language(config["EMPATICA_INTER_BEAT_INTERVAL"]["PROVIDERS"][provider]["SRC_SCRIPT"]), provider_key=provider.lower()))
         files_to_compute.extend(expand("data/processed/features/{pid}/empatica_inter_beat_interval.csv", pid=config["PIDS"]))
-        files_to_compute.extend(expand("data/processed/features/{pid}/all_sensor_features.csv", pid=config["PIDS"]))
+        files_to_compute.extend(expand("data/processed/features/{pid}/all_sensor_features.csv", pid=config["PIDS"])) 
         files_to_compute.append("data/processed/features/all_participants/all_sensor_features.csv")
 
 if isinstance(config["EMPATICA_TAGS"]["PROVIDERS"], dict):
@@ -373,6 +373,17 @@ if isinstance(config["EMPATICA_TAGS"]["PROVIDERS"], dict):
             files_to_compute.extend(expand("data/processed/features/{pid}/empatica_tags.csv", pid=config["PIDS"]))
             files_to_compute.extend(expand("data/processed/features/{pid}/all_sensor_features.csv", pid=config["PIDS"]))
             files_to_compute.append("data/processed/features/all_participants/all_sensor_features.csv")
+
+# for galaxy fit
+for provider in config["GALAXYFIT_HEARTRATE"]["PROVIDERS"].keys():
+    if config["GALAXYFIT_HEARTRATE"]["PROVIDERS"][provider]["COMPUTE"]:
+        print("extend files galaxyfit")
+        files_to_compute.extend(expand("data/raw/{pid}/galaxyfit_heartrate_raw.csv", pid=config["PIDS"]))
+        files_to_compute.extend(expand("data/raw/{pid}/galaxyfit_heartrate_with_datetime.csv", pid=config["PIDS"]))
+        files_to_compute.extend(expand("data/interim/{pid}/galaxyfit_heartrate_features/galaxyfit_heartrate_{language}_{provider_key}.csv", pid=config["PIDS"], language=get_script_language(config["GALAXYFIT_HEARTRATE"]["PROVIDERS"][provider]["SRC_SCRIPT"]), provider_key=provider.lower()))
+        files_to_compute.extend(expand("data/processed/features/{pid}/galaxyfit_heartrate.csv", pid=config["PIDS"]))
+        files_to_compute.extend(expand("data/processed/features/{pid}/all_sensor_features.csv", pid=config["PIDS"]))
+        files_to_compute.append("data/processed/features/all_participants/all_sensor_features.csv")
 
 # Visualization for Data Exploration
 if config["HISTOGRAM_PHONE_DATA_YIELD"]["PLOT"]:
@@ -401,6 +412,8 @@ for provider in config["ALL_CLEANING_INDIVIDUAL"]["PROVIDERS"].keys():
 for provider in config["ALL_CLEANING_OVERALL"]["PROVIDERS"].keys():
     if config["ALL_CLEANING_OVERALL"]["PROVIDERS"][provider]["COMPUTE"]:
         files_to_compute.extend(expand("data/processed/features/all_participants/all_sensor_features_cleaned_" + provider.lower() +".csv"))
+
+#print(files_to_compute)
 
 rule all:
     input:

@@ -3,7 +3,7 @@
 ########################################################################################################################
 
 # See https://www.rapids.science/latest/setup/configuration/#participant-files
-PIDS: [empatica]
+PIDS: [person1]
 
 # See https://www.rapids.science/latest/setup/configuration/#automatic-creation-of-participant-files
 CREATE_PARTICIPANT_FILES:
@@ -15,6 +15,9 @@ CREATE_PARTICIPANT_FILES:
     ADD: True
     IGNORED_DEVICE_IDS: []
   EMPATICA_SECTION:
+    ADD: True
+    IGNORED_DEVICE_IDS: []
+  GALAXYFIT_SECTION:
     ADD: True
     IGNORED_DEVICE_IDS: []
 
@@ -478,7 +481,7 @@ EMPATICA_ACCELEROMETER:
   CONTAINER: ACC
   PROVIDERS:
     DBDP:
-      COMPUTE: True
+      COMPUTE: False
       FEATURES: ["maxmagnitude", "minmagnitude", "avgmagnitude", "medianmagnitude", "stdmagnitude"]
       SRC_SCRIPT: src/features/empatica_accelerometer/dbdp/main.py
 
@@ -611,7 +614,7 @@ ALL_CLEANING_OVERALL:
 #                                                Galaxy fit                                                            #
 ########################################################################################################################
 
-Galaxy_DATA_STREAMS:
+GALAXYFIT_DATA_STREAMS:
   USE: galaxyfit_csv 
   
   # AVAILABLE:
@@ -619,5 +622,12 @@ Galaxy_DATA_STREAMS:
     FOLDER: data/external/galaxyfit_csv
 
 
+GALAXYFIT_HEARTRATE:
+  CONTAINER: heart_rate
+  PROVIDERS:
+    RAPIDS:
+      COMPUTE: True
+      FEATURES: [] 
+      SRC_SCRIPT: src/features/galaxyfit_heartrate/rapids/main.py
 
 
