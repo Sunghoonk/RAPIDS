@@ -2,7 +2,7 @@ rule join_features_from_providers:
     input:
         sensor_features = find_features_files
     wildcard_constraints:
-        sensor_key = '(phone|fitbit|empatica).*'
+        sensor_key = '(phone|fitbit|empatica|galaxyfit).*'
     output:
         "data/processed/features/{pid}/{sensor_key}.csv"
     script:
@@ -940,6 +940,19 @@ rule empatica_tags_r_features:
         "data/interim/{pid}/empatica_tags_features/empatica_tags_r_{provider_key}.csv"
     script:
         "../src/features/entry.R"
+
+rule galaxyfit_heartrate_python_features:
+    input:
+        sensor_data = "data/raw/{pid}/galaxyfit_heartrate_with_datetime.csv",
+        time_segments_labels = "data/interim/time_segments/{pid}_time_segments_labels.csv"
+    params:
+        provider = lambda wildcards: config["GALAXYFIT_HEARTRATE"]["PROVIDERS"][wildcards.provider_key.upper()],
+        provider_key = "{provider_key}",
+        sensor_key = "galaxyfit_heartrate"
+    output:
+        "data/interim/{pid}/galaxyfit_heartrate_features/galaxyfit_heartrate_python_{provider_key}.csv"
+    script:
+        "../src/features/entry.py"
 
 rule merge_sensor_features_for_individual_participants:
     input:

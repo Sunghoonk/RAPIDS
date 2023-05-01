@@ -311,6 +311,7 @@ for provider in config["FITBIT_STEPS_INTRADAY"]["PROVIDERS"].keys():
 
 for provider in config["EMPATICA_ACCELEROMETER"]["PROVIDERS"].keys():
     if config["EMPATICA_ACCELEROMETER"]["PROVIDERS"][provider]["COMPUTE"]:
+# print("extend files empatica")
         files_to_compute.extend(expand("data/raw/{pid}/empatica_accelerometer_raw.csv", pid=config["PIDS"]))
         files_to_compute.extend(expand("data/raw/{pid}/empatica_accelerometer_with_datetime.csv", pid=config["PIDS"]))
         files_to_compute.extend(expand("data/interim/{pid}/empatica_accelerometer_features/empatica_accelerometer_{language}_{provider_key}.csv", pid=config["PIDS"], language=get_script_language(config["EMPATICA_ACCELEROMETER"]["PROVIDERS"][provider]["SRC_SCRIPT"]), provider_key=provider.lower()))
@@ -374,10 +375,10 @@ if isinstance(config["EMPATICA_TAGS"]["PROVIDERS"], dict):
             files_to_compute.extend(expand("data/processed/features/{pid}/all_sensor_features.csv", pid=config["PIDS"]))
             files_to_compute.append("data/processed/features/all_participants/all_sensor_features.csv")
 
-# for galaxy fit
+# for galaxyfit
 for provider in config["GALAXYFIT_HEARTRATE"]["PROVIDERS"].keys():
     if config["GALAXYFIT_HEARTRATE"]["PROVIDERS"][provider]["COMPUTE"]:
-        print("extend files galaxyfit")
+# print("extend files galaxyfit")
         files_to_compute.extend(expand("data/raw/{pid}/galaxyfit_heartrate_raw.csv", pid=config["PIDS"]))
         files_to_compute.extend(expand("data/raw/{pid}/galaxyfit_heartrate_with_datetime.csv", pid=config["PIDS"]))
         files_to_compute.extend(expand("data/interim/{pid}/galaxyfit_heartrate_features/galaxyfit_heartrate_{language}_{provider_key}.csv", pid=config["PIDS"], language=get_script_language(config["GALAXYFIT_HEARTRATE"]["PROVIDERS"][provider]["SRC_SCRIPT"]), provider_key=provider.lower()))
@@ -413,7 +414,7 @@ for provider in config["ALL_CLEANING_OVERALL"]["PROVIDERS"].keys():
     if config["ALL_CLEANING_OVERALL"]["PROVIDERS"][provider]["COMPUTE"]:
         files_to_compute.extend(expand("data/processed/features/all_participants/all_sensor_features_cleaned_" + provider.lower() +".csv"))
 
-#print(files_to_compute)
+# print(files_to_compute)
 
 rule all:
     input:

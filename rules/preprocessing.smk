@@ -174,7 +174,7 @@ rule pull_wearable_data:
         pid = "{pid}",
         tables = lambda wildcards: config[wildcards.device_type.upper() + "_" + str(wildcards.sensor).upper()]["CONTAINER"],
     wildcard_constraints:
-        device_type="(empatica|fitbit)"
+        device_type="(empatica|fitbit|galaxyfit)"
     output:
         "data/raw/{pid}/{device_type}_{sensor}_raw.csv"
     script:
@@ -224,5 +224,23 @@ rule empatica_readable_datetime:
     output:
         sensor_with_datetime = "data/raw/{pid}/empatica_{sensor}_with_datetime.csv",
         flag_file = touch("data/raw/{pid}/empatica_{sensor}_with_datetime.done")
+    script:
+        "../src/data/datetime/readable_datetime.R"
+
+rule galaxyfit_readable_datetime:
+    input:
+        sensor_input = "data/raw/{pid}/galaxyfit_{sensor}_raw.csv",
+        time_segments = "data/interim/time_segments/{pid}_time_segments.csv",
+        pid_file = "data/external/participant_files/{pid}.yaml",
+        tzcodes_file = input_tzcodes_file,
+    params:
+        device_type = "galaxyfit",
+        timezone_parameters = config["TIMEZONE"],
+        pid = "{pid}",
+        time_segments_type = config["TIME_SEGMENTS"]["TYPE"],
+        include_past_periodic_segments = config["TIME_SEGMENTS"]["INCLUDE_PAST_PERIODIC_SEGMENTS"]
+    output:
+        sensor_with_datetime = "data/raw/{pid}/galaxyfit_{sensor}_with_datetime.csv",
+        flag_file = touch("data/raw/{pid}/galaxyfit_{sensor}_with_datetime.done")
     script:
         "../src/data/datetime/readable_datetime.R"
